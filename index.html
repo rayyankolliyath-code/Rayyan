@@ -1,81 +1,217 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>RAYYAN AI</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial;
-      background: black;
-      color: white;
-      text-align: center;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RAYYAN AI</title>
 
-    h1 {
-      margin-top: 100px;
-      color: #00ffcc;
-      font-size: 50px;
-    }
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+scroll-behavior:smooth;
+}
 
-    p {
-      font-size: 20px;
-      color: #ccc;
-    }
+body{
+background:#0f172a;
+color:white;
+}
 
-    .box {
-      margin-top: 30px;
-    }
-  </style>
+/* HEADER */
+header{
+background:#111827;
+padding:20px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+position:sticky;
+top:0;
+}
+
+.logo{
+font-size:28px;
+font-weight:bold;
+color:#38bdf8;
+}
+
+nav a{
+color:white;
+margin:15px;
+text-decoration:none;
+}
+
+/* HERO */
+.hero{
+text-align:center;
+padding:100px 20px;
+}
+
+.hero h1{
+font-size:55px;
+margin-bottom:20px;
+}
+
+.hero p{
+font-size:22px;
+color:#cbd5e1;
+margin-bottom:30px;
+}
+
+button{
+background:#2563eb;
+color:white;
+padding:15px 35px;
+font-size:18px;
+border:none;
+border-radius:10px;
+cursor:pointer;
+transition:0.3s;
+}
+
+button:hover{
+background:#1d4ed8;
+}
+
+/* FEATURES */
+.features{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:20px;
+padding:50px;
+}
+
+.card{
+background:#1e293b;
+padding:25px;
+border-radius:15px;
+text-align:center;
+}
+
+/* AI SECTION */
+#aiChat{
+padding:80px 20px;
+text-align:center;
+background:#0b1220;
+}
+
+#aiChat h2{
+margin-bottom:20px;
+color:#38bdf8;
+}
+
+input{
+padding:12px;
+width:250px;
+border:none;
+border-radius:8px;
+margin-right:10px;
+}
+
+footer{
+text-align:center;
+padding:25px;
+background:#111827;
+margin-top:50px;
+}
+</style>
+
 </head>
 
 <body>
 
-  <h1>RAYYAN AI</h1>
-  <p>Welcome to your AI Website 🤖</p>
+<header>
+<div class="logo">🤖 RAYYAN AI</div>
 
-  <div class="box">
-    <p>Website is running successfully ✅</p>
-  </div>
-        <div style="margin-top:50px;">
-  <h2>🤖 RAYYAN AI Chat</h2>
+<nav>
+<a href="#">Home</a>
+<a href="#aiChat">AI Chat</a>
+<a href="#">Quiz</a>
+<a href="#">Contact</a>
+</nav>
+</header>
 
-  <input id="userInput" placeholder="Type your question..."
-    style="padding:10px;width:250px;" />
+<section class="hero">
+<h1>Welcome to RAYYAN AI</h1>
 
-  <button onclick="askAI()" style="padding:10px 15px;">
-    Send
-  </button>
+<p>
+Your Personal AI Teacher for Class 1 to College
+(Malayalam & English)
+</p>
 
-  <p id="botReply" style="margin-top:20px;color:#00ffcc;"></p>
+<!-- BUTTON -> scroll to AI -->
+<button onclick="document.getElementById('aiChat').scrollIntoView()">
+Start AI Chat
+</button>
+</section>
+
+<section class="features">
+
+<div class="card">
+<h2>📚 All Subjects</h2>
+<p>Study every subject from Class 1 to College.</p>
 </div>
 
+<div class="card">
+<h2>🤖 AI Teacher</h2>
+<p>Ask anything in Malayalam or English.</p>
+</div>
+
+<div class="card">
+<h2>📝 Quiz</h2>
+<p>Practice MCQs and exams.</p>
+</div>
+
+<div class="card">
+<h2>🏆 Progress</h2>
+<p>Track your learning journey.</p>
+</div>
+
+</section>
+
+<!-- AI CHAT SECTION -->
+<section id="aiChat">
+
+<h2>🤖 Chat with RAYYAN AI</h2>
+
+<input id="userInput" placeholder="Ask anything..." />
+<button onclick="askAI()">Send</button>
+
+<p id="botReply" style="margin-top:20px;color:#38bdf8;"></p>
+
+</section>
+
+<footer>
+<h2>© 2026 RAYYAN AI</h2>
+<p>Learn Smart • Learn Fast • Learn Anywhere</p>
+</footer>
+
 <script>
-async function askAI() {
-  let input = document.getElementById("userInput").value;
-  document.getElementById("botReply").innerText = "Thinking... 🤖";
+async function askAI(){
+let input=document.getElementById("userInput").value;
+document.getElementById("botReply").innerText="Thinking... 🤖";
 
-  const apiKey = "AQ.Ab8RN6IOP0Av9G-ynGphitiq9G05ejyJvtO7I08dWRR0vRp1xg";
+const apiKey="AIzaSyCzG4KO7gm_ehcmH2MW3mUANJ2KAqMPHPQ";
 
-  const response = await fetch(
-    "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + apiKey,
-    {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        contents: [{
-          parts: [{ text: input }]
-        }]
-      })
-    }
-  );
-
-  const data = await response.json();
-
-  let reply = data.candidates?.[0]?.content?.parts?.[0]?.text 
-              || "No response";
-
-  document.getElementById("botReply").innerText = reply;
+const res=await fetch(
+"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key="+apiKey,
+{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({
+contents:[{parts:[{text:input}]}]
+})
 }
-    </script>       
+);
+
+const data=await res.json();
+
+let reply=data.candidates?.[0]?.content?.parts?.[0]?.text || "No response";
+
+document.getElementById("botReply").innerText=reply;
+}
+</script>
+
 </body>
 </html>
