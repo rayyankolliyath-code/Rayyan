@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,34 +7,25 @@
 <title>RAYYAN AI</title>
 
 <style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial,sans-serif;
-scroll-behavior:smooth;
-}
-
 body{
+margin:0;
+font-family:Arial;
 background:#0f172a;
 color:white;
 }
 
-/* HEADER */
 header{
 background:#111827;
 padding:20px;
 display:flex;
 justify-content:space-between;
 align-items:center;
-position:sticky;
-top:0;
 }
 
 .logo{
+color:#38bdf8;
 font-size:28px;
 font-weight:bold;
-color:#38bdf8;
 }
 
 nav a{
@@ -42,78 +34,36 @@ margin:15px;
 text-decoration:none;
 }
 
-/* HERO */
 .hero{
 text-align:center;
 padding:100px 20px;
 }
 
 .hero h1{
-font-size:55px;
-margin-bottom:20px;
-}
-
-.hero p{
-font-size:22px;
-color:#cbd5e1;
-margin-bottom:30px;
+font-size:50px;
 }
 
 button{
+padding:15px 25px;
 background:#2563eb;
 color:white;
-padding:15px 35px;
-font-size:18px;
 border:none;
 border-radius:10px;
 cursor:pointer;
-transition:0.3s;
 }
 
-button:hover{
-background:#1d4ed8;
-}
-
-/* FEATURES */
-.features{
+.card-section{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:20px;
-padding:50px;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:15px;
+padding:40px;
 }
 
 .card{
 background:#1e293b;
-padding:25px;
-border-radius:15px;
+padding:20px;
+border-radius:10px;
 text-align:center;
-}
-
-/* AI SECTION */
-#aiChat{
-padding:80px 20px;
-text-align:center;
-background:#0b1220;
-}
-
-#aiChat h2{
-margin-bottom:20px;
-color:#38bdf8;
-}
-
-input{
-padding:12px;
-width:250px;
-border:none;
-border-radius:8px;
-margin-right:10px;
-}
-
-footer{
-text-align:center;
-padding:25px;
-background:#111827;
-margin-top:50px;
 }
 </style>
 
@@ -126,92 +76,27 @@ margin-top:50px;
 
 <nav>
 <a href="#">Home</a>
-<a href="#aiChat">AI Chat</a>
-<a href="#">Quiz</a>
-<a href="#">Contact</a>
+<a href="chat.html">AI Chat</a>
 </nav>
 </header>
 
 <section class="hero">
 <h1>Welcome to RAYYAN AI</h1>
+<p>Learn with AI Teacher</p>
 
-<p>
-Your Personal AI Teacher for Class 1 to College
-(Malayalam & English)
-</p>
-
-<!-- BUTTON -> scroll to AI -->
-<button onclick="document.getElementById('aiChat').scrollIntoView()">
-Start AI Chat
-</button>
+<a href="chat.html">
+<button>Start AI Chat</button>
+</a>
 </section>
 
-<section class="features">
+<section class="card-section">
 
-<div class="card">
-<h2>📚 All Subjects</h2>
-<p>Study every subject from Class 1 to College.</p>
-</div>
-
-<div class="card">
-<h2>🤖 AI Teacher</h2>
-<p>Ask anything in Malayalam or English.</p>
-</div>
-
-<div class="card">
-<h2>📝 Quiz</h2>
-<p>Practice MCQs and exams.</p>
-</div>
-
-<div class="card">
-<h2>🏆 Progress</h2>
-<p>Track your learning journey.</p>
-</div>
+<div class="card">📚 Subjects</div>
+<div class="card">🤖 AI Teacher</div>
+<div class="card">📝 Quiz</div>
+<div class="card">🎤 Voice Learning</div>
 
 </section>
-
-<!-- AI CHAT SECTION -->
-<section id="aiChat">
-
-<h2>🤖 Chat with RAYYAN AI</h2>
-
-<input id="userInput" placeholder="Ask anything..." />
-<button onclick="askAI()">Send</button>
-
-<p id="botReply" style="margin-top:20px;color:#38bdf8;"></p>
-
-</section>
-
-<footer>
-<h2>© 2026 RAYYAN AI</h2>
-<p>Learn Smart • Learn Fast • Learn Anywhere</p>
-</footer>
-
-<script>
-async function askAI(){
-let input=document.getElementById("userInput").value;
-document.getElementById("botReply").innerText="Thinking... 🤖";
-
-const apiKey="AIzaSyCzG4KO7gm_ehcmH2MW3mUANJ2KAqMPHPQ";
-
-const res=await fetch(
-"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key="+apiKey,
-{
-method:"POST",
-headers:{"Content-Type":"application/json"},
-body:JSON.stringify({
-contents:[{parts:[{text:input}]}]
-})
-}
-);
-
-const data=await res.json();
-
-let reply=data.candidates?.[0]?.content?.parts?.[0]?.text || "No response";
-
-document.getElementById("botReply").innerText=reply;
-}
-</script>
 
 </body>
 </html>
