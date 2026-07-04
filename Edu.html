@@ -4,132 +4,180 @@
 <title>Edu Assistant</title><style>
 body{
     margin:0;
-    font-family:Arial;
-    background:linear-gradient(135deg,#000,#111);
+    font-family:'Segoe UI',sans-serif;
+    background:radial-gradient(circle at top,#0a0f1f,#000);
     color:#fff;
-    text-align:center;
     overflow-x:hidden;
 }
+
+/* HEADER */
+.header{
+    display:flex;
+    justify-content:space-between;
+    padding:15px;
+    align-items:center;
+    font-weight:bold;
+}
+
+/* TITLE FADE */
 h1{
-    opacity:0.2;
-    margin-top:20px;
-}
-.container{
-    padding:20px;
+    text-align:center;
+    opacity:0.1;
 }
 
-/* Buttons */
-button{
-    padding:15px;
-    margin:10px;
-    width:85%;
-    border:none;
-    border-radius:12px;
-    background:#111;
-    color:white;
-    font-size:16px;
-    box-shadow:0 0 10px #00f;
-    transition:0.3s;
-}
-button:hover{
-    transform:scale(1.05);
-    box-shadow:0 0 20px #00f;
-}
-
-/* Cards */
+/* GLASS CARD */
 .card{
+    margin:20px;
+    padding:25px;
+    border-radius:25px;
     background:rgba(255,255,255,0.05);
-    margin:15px;
-    padding:15px;
-    border-radius:15px;
-    backdrop-filter:blur(10px);
-    animation:fadeIn 0.6s ease;
+    backdrop-filter:blur(20px);
+    box-shadow:
+    0 0 25px rgba(0,0,0,0.8),
+    inset 0 0 20px rgba(255,255,255,0.05);
+    transition:0.4s;
+    animation:fade 0.5s ease;
+}
+.card:hover{
+    transform:scale(1.03);
 }
 
-/* Animations */
-.fade{
-    animation:fadeIn 0.5s ease;
+/* ICON */
+.icon{
+    width:70px;
+    height:70px;
+    border-radius:20px;
+    background:linear-gradient(135deg,#6dd5ed,#f9d423);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:28px;
+    margin:auto;
 }
-@keyframes fadeIn{
-    from{opacity:0; transform:translateY(20px);}
-    to{opacity:1; transform:translateY(0);}
+
+/* TEXT */
+.title{
+    font-size:24px;
+    font-weight:bold;
+    text-align:center;
+    margin-top:15px;
 }
-</style></head><body><h1>Edu Assistant</h1><div class="container">
-<h2 id="title">Welcome to Edu Assistant</h2><button id="startBtn" onclick="start()">Start Learning</button>
+.sub{
+    text-align:center;
+    opacity:0.7;
+}
 
-<div id="content"></div>
-</div><script>
+/* BUTTON TEXT */
+.open-btn{
+    text-align:center;
+    margin-top:15px;
+    color:#f9d423;
+    font-weight:bold;
+}
 
-/* SAMPLE DATA (EDIT THIS WITH REAL PDF LINKS) */
+/* BACK BUTTON */
+.back{
+    margin:10px;
+    padding:10px;
+    border-radius:10px;
+    background:#111;
+    display:inline-block;
+}
+
+/* ANIMATION */
+@keyframes fade{
+    from{opacity:0;transform:translateY(20px);}
+    to{opacity:1;transform:translateY(0);}
+}
+</style></head><body><div class="header">Edu Assistant</div><h1>Edu Assistant</h1><div id="content"></div><script>
+
+/* DATA (EDIT PDF LINKS HERE) */
 const data = {
-  10: {
-    Maths: [
-      {name:"Chapter 1: Real Numbers", pdf:"pdfs/maths1.pdf"},
-      {name:"Chapter 2: Polynomials", pdf:"pdfs/maths2.pdf"}
+  10:{
+    Maths:[
+      {name:"Real Numbers", pdf:"pdfs/maths1.pdf"},
+      {name:"Polynomials", pdf:"pdfs/maths2.pdf"}
     ],
-    Science: [
-      {name:"Chapter 1: Chemical Reactions", pdf:"pdfs/science1.pdf"}
+    Science:[
+      {name:"Chemical Reactions", pdf:"pdfs/science1.pdf"}
     ]
   }
 };
 
-/* Start */
-function start(){
-    startBtn.style.display="none";
-    title.innerText="Select Medium";
-
+/* HOME */
+function home(){
     content.innerHTML=`
-    <button onclick="medium('Malayalam')">Malayalam Medium</button>
-    <button onclick="medium('English')">English Medium</button>
+    <div class="card" onclick="medium('Malayalam')">
+        <div class="icon">🌐</div>
+        <div class="title">മലയാളം മീഡിയം</div>
+        <div class="sub">Class 1 to 10 • SCERT Kerala</div>
+        <div class="open-btn">തുറക്കുക →</div>
+    </div>
+
+    <div class="card" onclick="medium('English')">
+        <div class="icon">📘</div>
+        <div class="title">English Medium</div>
+        <div class="sub">Class 1 to 10 • SCERT Kerala</div>
+        <div class="open-btn">Open →</div>
+    </div>
     `;
 }
 
-/* Medium */
+/* MEDIUM */
 function medium(m){
-    title.innerText="Select Class ("+m+")";
+    let html='<div class="back" onclick="home()">⬅ Back</div>';
+    html += "<h2 style='text-align:center'>Select Class</h2>";
 
-    let html="";
     for(let i=1;i<=12;i++){
-        html += `<button onclick="selectClass(${i})">Class ${i}</button>`;
+        html += `
+        <div class="card" onclick="selectClass(${i})">
+            <div class="title">Class ${i}</div>
+        </div>`;
     }
+
     content.innerHTML=html;
 }
 
-/* Class */
+/* CLASS */
 function selectClass(c){
-    title.innerText="Select Subject (Class "+c+")";
-
     if(!data[c]){
-        content.innerHTML="<p>No data added yet</p>";
+        content.innerHTML="<div class='back' onclick='home()'>⬅ Back</div><p style='text-align:center'>No data</p>";
         return;
     }
 
-    let html="";
+    let html='<div class="back" onclick="home()">⬅ Back</div>';
+    html += "<h2 style='text-align:center'>Subjects</h2>";
+
     for(let sub in data[c]){
-        html += `<button onclick="subject(${c},'${sub}')">${sub}</button>`;
+        html += `
+        <div class="card" onclick="subject(${c},'${sub}')">
+            <div class="title">${sub}</div>
+        </div>`;
     }
+
     content.innerHTML=html;
 }
 
-/* Subject */
+/* SUBJECT */
 function subject(c,s){
-    title.innerText=s+" Chapters";
+    let html='<div class="back" onclick="home()">⬅ Back</div>';
+    html += "<h2 style='text-align:center'>Chapters</h2>";
 
-    let chapters=data[c][s];
-    let html="";
-
-    chapters.forEach(ch=>{
+    data[c][s].forEach(ch=>{
         html += `
         <div class="card">
-            <h3>${ch.name}</h3>
+            <div class="title">${ch.name}</div>
             <a href="${ch.pdf}" download>
-            <button>📥 Download PDF</button>
+            <div class="open-btn">📥 Download PDF</div>
             </a>
         </div>`;
     });
 
     content.innerHTML=html;
 }
+
+/* INIT */
+home();
 
 </script></body>
 </html>
