@@ -1,179 +1,263 @@
 <!DOCTYPE html><html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Edu Assistant</title><style>
+<title>Edu Assistant Ultra</title><style>
 body{
-    margin:0;
-    font-family:'Segoe UI',sans-serif;
-    background:radial-gradient(circle at top,#0a0f1f,#000);
-    color:#fff;
-    overflow-x:hidden;
+margin:0;
+font-family:'Segoe UI',sans-serif;
+background:linear-gradient(135deg,#050510,#000);
+color:#fff;
+overflow-x:hidden;
 }
 
-/* HEADER */
-.header{
-    display:flex;
-    justify-content:space-between;
-    padding:15px;
-    align-items:center;
-    font-weight:bold;
+/* TOP BAR */
+.topbar{
+display:flex;
+justify-content:space-between;
+padding:12px;
+background:rgba(255,255,255,0.05);
+backdrop-filter:blur(15px);
+position:sticky;
+top:0;
+z-index:100;
+}
+.logo{
+font-weight:bold;
+font-size:18px;
+}
+.toggle{
+cursor:pointer;
 }
 
-/* TITLE FADE */
-h1{
-    text-align:center;
-    opacity:0.1;
+/* PROGRESS */
+.progress{
+height:4px;
+background:#111;
+}
+.bar{
+height:4px;
+width:25%;
+background:linear-gradient(90deg,#0ff,#00f);
+transition:0.4s;
 }
 
-/* GLASS CARD */
+/* CARD */
 .card{
-    margin:20px;
-    padding:25px;
-    border-radius:25px;
-    background:rgba(255,255,255,0.05);
-    backdrop-filter:blur(20px);
-    box-shadow:
-    0 0 25px rgba(0,0,0,0.8),
-    inset 0 0 20px rgba(255,255,255,0.05);
-    transition:0.4s;
-    animation:fade 0.5s ease;
+margin:20px;
+padding:25px;
+border-radius:25px;
+background:rgba(255,255,255,0.05);
+backdrop-filter:blur(25px);
+box-shadow:0 0 30px rgba(0,0,0,0.8);
+transition:0.4s;
+animation:fade 0.6s;
 }
 .card:hover{
-    transform:scale(1.03);
+transform:scale(1.05);
+box-shadow:0 0 30px #00f;
 }
 
 /* ICON */
 .icon{
-    width:70px;
-    height:70px;
-    border-radius:20px;
-    background:linear-gradient(135deg,#6dd5ed,#f9d423);
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    font-size:28px;
-    margin:auto;
+width:70px;
+height:70px;
+border-radius:20px;
+background:linear-gradient(135deg,#00f,#0ff);
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:28px;
+margin:auto;
 }
 
 /* TEXT */
 .title{
-    font-size:24px;
-    font-weight:bold;
-    text-align:center;
-    margin-top:15px;
+text-align:center;
+font-size:22px;
+margin-top:10px;
 }
 .sub{
-    text-align:center;
-    opacity:0.7;
+text-align:center;
+opacity:0.7;
 }
-
-/* BUTTON TEXT */
 .open-btn{
-    text-align:center;
-    margin-top:15px;
-    color:#f9d423;
-    font-weight:bold;
+text-align:center;
+margin-top:10px;
+color:#0ff;
 }
 
-/* BACK BUTTON */
+/* BACK */
 .back{
-    margin:10px;
-    padding:10px;
-    border-radius:10px;
-    background:#111;
-    display:inline-block;
+margin:10px;
+padding:8px 12px;
+background:#111;
+display:inline-block;
+border-radius:10px;
+cursor:pointer;
 }
 
-/* ANIMATION */
+/* CHAT BUTTON */
+.chat-btn{
+position:fixed;
+bottom:90px;
+right:15px;
+padding:14px;
+border-radius:50%;
+background:linear-gradient(135deg,#0ff,#00f);
+box-shadow:0 0 20px #0ff;
+cursor:pointer;
+}
+
+/* CHAT BOX */
+.chatbox{
+position:fixed;
+bottom:150px;
+right:10px;
+width:260px;
+background:#111;
+border-radius:10px;
+display:none;
+}
+.chatlog{
+height:150px;
+overflow:auto;
+padding:10px;
+font-size:13px;
+}
+
+/* INPUT */
+input{
+width:65%;
+padding:6px;
+}
+
+/* NAV */
+.nav{
+position:fixed;
+bottom:10px;
+left:50%;
+transform:translateX(-50%);
+background:rgba(255,255,255,0.05);
+padding:12px 30px;
+border-radius:30px;
+backdrop-filter:blur(10px);
+}
+
+/* ANIM */
 @keyframes fade{
-    from{opacity:0;transform:translateY(20px);}
-    to{opacity:1;transform:translateY(0);}
+from{opacity:0;transform:translateY(20px);}
+to{opacity:1;transform:translateY(0);}
 }
-</style></head><body><div class="header">Edu Assistant</div><h1>Edu Assistant</h1><div id="content"></div><script>
+</style></head><body><div class="topbar">
+<div class="logo">Edu Assistant</div>
+<div class="toggle" onclick="toggleDark()">🌙</div>
+</div><div class="progress"><div class="bar" id="bar"></div></div><div id="content"></div><div class="chat-btn" onclick="toggleChat()">💬</div><div class="chatbox" id="chatbox">
+<div class="chatlog" id="chatlog"></div>
+<input id="msg"><button onclick="send()">Send</button>
+</div><div class="nav">🏠 Home | 📘 Study | ⚙️</div><script>
 
-/* DATA (EDIT PDF LINKS HERE) */
-const data = {
-  10:{
-    Maths:[
-      {name:"Real Numbers", pdf:"pdfs/maths1.pdf"},
-      {name:"Polynomials", pdf:"pdfs/maths2.pdf"}
-    ],
-    Science:[
-      {name:"Chemical Reactions", pdf:"pdfs/science1.pdf"}
-    ]
-  }
+/* DATA (EDIT THIS) */
+const data={
+10:{
+Maths:[
+{name:"Real Numbers", pdf:"pdfs/m1.pdf"},
+{name:"Polynomials", pdf:"pdfs/m2.pdf"}
+],
+Science:[
+{name:"Chemical Reactions", pdf:"pdfs/s1.pdf"}
+]
+}
 };
+
+/* PROGRESS */
+function setProgress(val){
+document.getElementById("bar").style.width=val+"%";
+}
 
 /* HOME */
 function home(){
-    content.innerHTML=`
-    <div class="card" onclick="medium('Malayalam')">
-        <div class="icon">🌐</div>
-        <div class="title">മലയാളം മീഡിയം</div>
-        <div class="sub">Class 1 to 10 • SCERT Kerala</div>
-        <div class="open-btn">തുറക്കുക →</div>
-    </div>
+setProgress(20);
+content.innerHTML=`
+<div class="card" onclick="medium()">
+<div class="icon">🌐</div>
+<div class="title">മലയാളം മീഡിയം</div>
+<div class="sub">Class 1-12</div>
+<div class="open-btn">Start →</div>
+</div>
 
-    <div class="card" onclick="medium('English')">
-        <div class="icon">📘</div>
-        <div class="title">English Medium</div>
-        <div class="sub">Class 1 to 10 • SCERT Kerala</div>
-        <div class="open-btn">Open →</div>
-    </div>
-    `;
+<div class="card" onclick="medium()">
+<div class="icon">📘</div>
+<div class="title">English Medium</div>
+<div class="sub">Class 1-12</div>
+<div class="open-btn">Start →</div>
+</div>
+`;
 }
 
 /* MEDIUM */
-function medium(m){
-    let html='<div class="back" onclick="home()">⬅ Back</div>';
-    html += "<h2 style='text-align:center'>Select Class</h2>";
-
-    for(let i=1;i<=12;i++){
-        html += `
-        <div class="card" onclick="selectClass(${i})">
-            <div class="title">Class ${i}</div>
-        </div>`;
-    }
-
-    content.innerHTML=html;
+function medium(){
+setProgress(40);
+let html='<div class="back" onclick="home()">⬅ Back</div>';
+for(let i=1;i<=12;i++){
+html+=`<div class="card" onclick="cls(${i})">
+<div class="title">Class ${i}</div>
+</div>`;
+}
+content.innerHTML=html;
 }
 
 /* CLASS */
-function selectClass(c){
-    if(!data[c]){
-        content.innerHTML="<div class='back' onclick='home()'>⬅ Back</div><p style='text-align:center'>No data</p>";
-        return;
-    }
-
-    let html='<div class="back" onclick="home()">⬅ Back</div>';
-    html += "<h2 style='text-align:center'>Subjects</h2>";
-
-    for(let sub in data[c]){
-        html += `
-        <div class="card" onclick="subject(${c},'${sub}')">
-            <div class="title">${sub}</div>
-        </div>`;
-    }
-
-    content.innerHTML=html;
+function cls(c){
+setProgress(60);
+if(!data[c]){
+content.innerHTML="<div class='back' onclick='home()'>⬅ Back</div><p style='text-align:center'>No data</p>";
+return;
+}
+let html='<div class="back" onclick="home()">⬅ Back</div>';
+for(let s in data[c]){
+html+=`<div class="card" onclick="sub(${c},'${s}')">
+<div class="title">${s}</div>
+</div>`;
+}
+content.innerHTML=html;
 }
 
 /* SUBJECT */
-function subject(c,s){
-    let html='<div class="back" onclick="home()">⬅ Back</div>';
-    html += "<h2 style='text-align:center'>Chapters</h2>";
+function sub(c,s){
+setProgress(90);
+let html='<div class="back" onclick="home()">⬅ Back</div>';
+data[c][s].forEach(ch=>{
+html+=`
+<div class="card">
+<div class="title">${ch.name}</div>
+<a href="${ch.pdf}" download>
+<div class="open-btn">📥 Download PDF</div>
+</a>
+</div>`;
+});
+content.innerHTML=html;
+}
 
-    data[c][s].forEach(ch=>{
-        html += `
-        <div class="card">
-            <div class="title">${ch.name}</div>
-            <a href="${ch.pdf}" download>
-            <div class="open-btn">📥 Download PDF</div>
-            </a>
-        </div>`;
-    });
+/* CHAT */
+function toggleChat(){
+chatbox.style.display = chatbox.style.display==="block"?"none":"block";
+}
+function send(){
+let m=document.getElementById("msg").value;
+if(!m) return;
+chatlog.innerHTML+="<p><b>You:</b> "+m+"</p>";
+chatlog.innerHTML+="<p><b>Bot:</b> പഠിക്കാം 🔥</p>";
+document.getElementById("msg").value="";
+chatlog.scrollTop=chatlog.scrollHeight;
+}
 
-    content.innerHTML=html;
+/* DARK MODE */
+function toggleDark(){
+if(document.body.style.background=="black"){
+document.body.style.background="linear-gradient(135deg,#050510,#000)";
+}else{
+document.body.style.background="black";
+}
 }
 
 /* INIT */
