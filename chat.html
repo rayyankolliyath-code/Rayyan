@@ -1,140 +1,194 @@
 
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RAYYAN AI CHAT</title>
-
-<style>
-body{
-margin:0;
-font-family:Arial;
-background:#0f172a;
-color:white;
-display:flex;
-flex-direction:column;
-align-items:center;
+<title>Edu Assistant</title><link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet"><style>
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(to right, #4facfe, #00f2fe);
+    color: white;
+    text-align: center;
 }
 
-/* TOP HEADER */
-.header{
-width:100%;
-background:#111827;
-padding:15px;
-text-align:center;
-font-size:22px;
-color:#38bdf8;
-font-weight:bold;
+/* Splash */
+#splash {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.logo {
+    font-size: 28px;
+    animation: zoom 2s;
+}
+@keyframes zoom {
+    from {transform: scale(0);}
+    to {transform: scale(1);}
 }
 
-/* CHAT BOX */
-.chat-box{
-width:90%;
-max-width:600px;
-height:65vh;
-background:#1e293b;
-margin-top:20px;
-border-radius:12px;
-padding:10px;
-overflow:auto;
+/* Main */
+#main {
+    display: none;
+    padding: 15px;
 }
 
-/* INPUT AREA */
-.input-area{
-width:90%;
-max-width:600px;
-display:flex;
-gap:10px;
-margin-top:10px;
+.faded {
+    opacity: 0.15;
+    font-size: 40px;
 }
 
-input{
-flex:1;
-padding:12px;
-border:none;
-border-radius:8px;
+/* Buttons */
+button {
+    width: 90%;
+    max-width: 300px;
+    padding: 12px;
+    margin: 8px auto;
+    border: none;
+    border-radius: 25px;
+    background: white;
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+    display: block;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    transition: 0.3s;
+}
+button:hover {
+    transform: scale(1.05);
+    background: yellow;
 }
 
-button{
-padding:12px;
-border:none;
-border-radius:8px;
-background:#2563eb;
-color:white;
-cursor:pointer;
+/* Chat */
+#chatbox {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    width: 90%;
+    max-width: 300px;
+    background: white;
+    color: black;
+    border-radius: 10px;
+    display: none;
+}
+#chatlog {
+    height: 180px;
+    overflow-y: auto;
+    padding: 10px;
+    text-align: left;
+    font-size: 14px;
+}
+#chatInput {
+    width: 65%;
+    padding: 8px;
+    margin: 5px;
 }
 
-button:hover{
-background:#1d4ed8;
+/* Video */
+iframe {
+    width: 90%;
+    height: 200px;
+    border-radius: 10px;
 }
-</style>
+</style></head><body><!-- Splash --><div id="splash">
+    <div class="logo">📘 Edu Assistant</div>
+    <h3>Welcome to Edu Assistant</h3>
+</div><!-- Main --><div id="main">
+    <div class="faded">Edu Assistant</div><h2>Start Learning</h2>
+<button onclick="start()">Start Learning</button>
 
-</head>
+<div id="content"></div>
 
-<body>
+<br>
+<button onclick="toggleChat()">💬 Chat</button>
 
-<div class="header">🤖 RAYYAN AI CHAT</div>
+</div><!-- Chat --><div id="chatbox">
+    <div id="chatlog"></div>
+    <input type="text" id="chatInput" placeholder="Ask...">
+    <button onclick="sendMsg()">Send</button>
+</div><script>
 
-<div class="chat-box" id="chatBox"></div>
+/* Splash */
+setTimeout(()=>{
+    splash.style.display="none";
+    main.style.display="block";
+},2500);
 
-<div class="input-area">
-<input id="userInput" placeholder="Ask anything (Malayalam / English)" />
-<button onclick="voiceInput()">🎤</button>
-<button onclick="askAI()">Send</button>
-</div>
-
-<script>
-/* 🔥 AI FUNCTION */
-async function askAI(){
-
-let input = document.getElementById("userInput").value;
-let box = document.getElementById("chatBox");
-
-/* user message */
-box.innerHTML += "<p><b>You:</b> "+input+"</p>";
-
-document.getElementById("userInput").value="";
-
-/* loading */
-box.innerHTML += "<p>🤖 Thinking...</p>";
-
-const apiKey = "AIzaSyCzG4KO7gm_ehcmH2MW3mUANJ2KAqMPHPQ";
-
-const response = await fetch(
-"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key="+apiKey,
-{
-method:"POST",
-headers:{"Content-Type":"application/json"},
-body:JSON.stringify({
-contents:[{parts:[{text:input}]}]
-})
-}
-);
-
-const data = await response.json();
-
-let reply = data.candidates?.[0]?.content?.parts?.[0]?.text || "No response";
-
-/* AI reply */
-box.innerHTML += "<p><b>AI:</b> "+reply+"</p>";
-
-box.scrollTop = box.scrollHeight;
+/* Start */
+function start(){
+    content.innerHTML = `
+    <h3>Choose Medium</h3>
+    <button onclick="selectMedium()">Malayalam Medium</button>
+    <button onclick="selectMedium()">English Medium</button>
+    `;
 }
 
-/* 🎤 VOICE INPUT */
-function voiceInput(){
-let recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-
-recognition.lang = "en-US";
-recognition.start();
-
-recognition.onresult = function(event){
-document.getElementById("userInput").value =
-event.results[0][0].transcript;
-};
+/* Class */
+function selectMedium(){
+    let html = "<h3>Select Class</h3>";
+    for(let i=1;i<=12;i++){
+        html += `<button onclick="selectClass(${i})">${i}</button>`;
+    }
+    content.innerHTML = html;
 }
-</script>
 
-</body>
+/* Subject */
+function selectClass(c){
+    content.innerHTML = `
+    <h3>Select Subject</h3>
+    <button onclick="subject('Maths')">Maths</button>
+    <button onclick="subject('Science')">Science</button>
+    <button onclick="subject('English')">English</button>
+    <button onclick="subject('Social')">Social</button>
+    `;
+}
+
+/* Subject Page */
+function subject(s){
+    content.innerHTML = `
+    <h2>${s}</h2>
+
+    <h3>📘 Notes</h3>
+    <a href="#" download>
+    <button>Download Notes</button>
+    </a>
+
+    <h3>🎥 Video</h3>
+    <iframe src="https://www.youtube.com/embed/tgbNymZ7vqY"></iframe>
+    `;
+}
+
+/* Chat */
+function toggleChat(){
+    chatbox.style.display =
+    chatbox.style.display === "none" ? "block" : "none";
+}
+
+function sendMsg(){
+    let input = chatInput.value;
+    if(input.trim()=="") return;
+
+    chatlog.innerHTML += "<p><b>You:</b> "+input+"</p>";
+
+    let reply = "I help studies 😊";
+
+    if(input.toLowerCase().includes("math")){
+        reply = "Maths help coming 📘";
+    }
+    else if(input.toLowerCase().includes("science")){
+        reply = "Science videos 🎥";
+    }
+
+    chatlog.innerHTML += "<p><b>Bot:</b> "+reply+"</p>";
+
+    chatInput.value="";
+    chatlog.scrollTop = chatlog.scrollHeight;
+}
+
+</script></body>
 </html>
