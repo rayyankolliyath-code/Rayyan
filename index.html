@@ -1,23 +1,169 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RAYYAN AI</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RAYYAN AI</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#0f172a;
+color:white;
+}
+
+header{
+background:#111827;
+padding:20px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.logo{
+font-size:30px;
+font-weight:bold;
+color:#38bdf8;
+}
+
+nav a{
+color:white;
+margin:15px;
+text-decoration:none;
+}
+
+.hero{
+text-align:center;
+padding:100px 20px;
+}
+
+.hero h1{
+font-size:55px;
+margin-bottom:20px;
+}
+
+.hero p{
+font-size:22px;
+color:#cbd5e1;
+margin-bottom:30px;
+}
+
+button{
+background:#2563eb;
+color:white;
+padding:15px 35px;
+font-size:20px;
+border:none;
+border-radius:10px;
+cursor:pointer;
+}
+
+.features{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:20px;
+padding:50px;
+}
+
+.card{
+background:#1e293b;
+padding:25px;
+border-radius:15px;
+text-align:center;
+}
+
+.card h2{
+margin-bottom:15px;
+color:#38bdf8;
+}
+
+footer{
+text-align:center;
+padding:25px;
+background:#111827;
+margin-top:50px;
+}
+</style>
+
 </head>
-<body style="font-family:Arial;text-align:center;background:#0f172a;color:white;padding:40px;">
 
-<h1>🤖 RAYYAN AI</h1>
+<body>
 
-<h2>Your AI Teacher</h2>
+<header>
 
-<p>Learn from Class 1 to College</p>
+<div class="logo">🤖 RAYYAN AI</div>
 
-<p>📘 Malayalam | English</p>
+<nav>
+<a href="#">Home</a>
+<a href="#">Subjects</a>
+<a href="#">Quiz</a>
+<a href="#">AI Chat</a>
+<a href="#">Contact</a>
+</nav>
 
-<button style="padding:15px 30px;font-size:18px;background:#2563eb;color:white;border:none;border-radius:10px;">
-Start Learning
-</button>
+</header>
+
+<section class="hero">
+
+<h1>Welcome to RAYYAN AI</h1>
+
+<p>
+Your Personal AI Teacher for
+Class 1 to College
+(Malayalam & English)
+</p>
+
+<button>Start Learning</button>
+
+</section>
+
+<section class="features">
+
+<div class="card">
+<h2>📚 All Subjects</h2>
+<p>Study every subject from Class 1 to College.</p>
+</div>
+
+<div class="card">
+<h2>🤖 AI Teacher</h2>
+<p>Ask any question anytime in Malayalam or English.</p>
+</div>
+
+<div class="card">
+<h2>📝 Quiz</h2>
+<p>Practice with MCQs and exams.</p>
+</div>
+
+<div class="card">
+<h2>🖼️ Image Learning</h2>
+<p>Learn with beautiful diagrams and images.</p>
+</div>
+
+<div class="card">
+<h2>🎤 Voice Learning</h2>
+<p>Speak to the AI Teacher using your voice.</p>
+</div>
+
+<div class="card">
+<h2>🏆 Progress</h2>
+<p>Track your learning journey and scores.</p>
+</div>
+
+</section>
+
+<footer>
+
+<h2>© 2026 RAYYAN AI</h2>
+
+<p>Learn Smart • Learn Fast • Learn Anywhere</p>
+
+</footer>
 
 </body>
 </html>
