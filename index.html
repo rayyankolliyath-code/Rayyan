@@ -1,102 +1,194 @@
-
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RAYYAN AI</title>
-
-<style>
-body{
-margin:0;
-font-family:Arial;
-background:#0f172a;
-color:white;
+<title>Edu Assistant</title><link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet"><style>
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(to right, #4facfe, #00f2fe);
+    color: white;
+    text-align: center;
 }
 
-header{
-background:#111827;
-padding:20px;
-display:flex;
-justify-content:space-between;
-align-items:center;
+/* Splash */
+#splash {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.logo {
+    font-size: 28px;
+    animation: zoom 2s;
+}
+@keyframes zoom {
+    from {transform: scale(0);}
+    to {transform: scale(1);}
 }
 
-.logo{
-color:#38bdf8;
-font-size:28px;
-font-weight:bold;
+/* Main */
+#main {
+    display: none;
+    padding: 15px;
 }
 
-nav a{
-color:white;
-margin:15px;
-text-decoration:none;
+.faded {
+    opacity: 0.15;
+    font-size: 40px;
 }
 
-.hero{
-text-align:center;
-padding:100px 20px;
+/* Buttons */
+button {
+    width: 90%;
+    max-width: 300px;
+    padding: 12px;
+    margin: 8px auto;
+    border: none;
+    border-radius: 25px;
+    background: white;
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+    display: block;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    transition: 0.3s;
+}
+button:hover {
+    transform: scale(1.05);
+    background: yellow;
 }
 
-.hero h1{
-font-size:50px;
+/* Chat */
+#chatbox {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    width: 90%;
+    max-width: 300px;
+    background: white;
+    color: black;
+    border-radius: 10px;
+    display: none;
+}
+#chatlog {
+    height: 180px;
+    overflow-y: auto;
+    padding: 10px;
+    text-align: left;
+    font-size: 14px;
+}
+#chatInput {
+    width: 65%;
+    padding: 8px;
+    margin: 5px;
 }
 
-button{
-padding:15px 25px;
-background:#2563eb;
-color:white;
-border:none;
-border-radius:10px;
-cursor:pointer;
+/* Video */
+iframe {
+    width: 90%;
+    height: 200px;
+    border-radius: 10px;
+}
+</style></head><body><!-- Splash --><div id="splash">
+    <div class="logo">📘 Edu Assistant</div>
+    <h3>Welcome to Edu Assistant</h3>
+</div><!-- Main --><div id="main">
+    <div class="faded">Edu Assistant</div><h2>Start Learning</h2>
+<button onclick="start()">Start Learning</button>
+
+<div id="content"></div>
+
+<br>
+<button onclick="toggleChat()">💬 Chat</button>
+
+</div><!-- Chat --><div id="chatbox">
+    <div id="chatlog"></div>
+    <input type="text" id="chatInput" placeholder="Ask...">
+    <button onclick="sendMsg()">Send</button>
+</div><script>
+
+/* Splash */
+setTimeout(()=>{
+    splash.style.display="none";
+    main.style.display="block";
+},2500);
+
+/* Start */
+function start(){
+    content.innerHTML = `
+    <h3>Choose Medium</h3>
+    <button onclick="selectMedium()">Malayalam Medium</button>
+    <button onclick="selectMedium()">English Medium</button>
+    `;
 }
 
-.card-section{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-gap:15px;
-padding:40px;
+/* Class */
+function selectMedium(){
+    let html = "<h3>Select Class</h3>";
+    for(let i=1;i<=12;i++){
+        html += `<button onclick="selectClass(${i})">${i}</button>`;
+    }
+    content.innerHTML = html;
 }
 
-.card{
-background:#1e293b;
-padding:20px;
-border-radius:10px;
-text-align:center;
+/* Subject */
+function selectClass(c){
+    content.innerHTML = `
+    <h3>Select Subject</h3>
+    <button onclick="subject('Maths')">Maths</button>
+    <button onclick="subject('Science')">Science</button>
+    <button onclick="subject('English')">English</button>
+    <button onclick="subject('Social')">Social</button>
+    `;
 }
-</style>
 
-</head>
+/* Subject Page */
+function subject(s){
+    content.innerHTML = `
+    <h2>${s}</h2>
 
-<body>
+    <h3>📘 Notes</h3>
+    <a href="#" download>
+    <button>Download Notes</button>
+    </a>
 
-<header>
-<div class="logo">🤖 RAYYAN AI</div>
+    <h3>🎥 Video</h3>
+    <iframe src="https://www.youtube.com/embed/tgbNymZ7vqY"></iframe>
+    `;
+}
 
-<nav>
-<a href="#">Home</a>
-<a href="chat.html">AI Chat</a>
-</nav>
-</header>
+/* Chat */
+function toggleChat(){
+    chatbox.style.display =
+    chatbox.style.display === "none" ? "block" : "none";
+}
 
-<section class="hero">
-<h1>Welcome to RAYYAN AI</h1>
-<p>Learn with AI Teacher</p>
+function sendMsg(){
+    let input = chatInput.value;
+    if(input.trim()=="") return;
 
-<a href="chat.html">
-<button>Start AI Chat</button>
-</a>
-</section>
+    chatlog.innerHTML += "<p><b>You:</b> "+input+"</p>";
 
-<section class="card-section">
+    let reply = "I help studies 😊";
 
-<div class="card">📚 Subjects</div>
-<div class="card">🤖 AI Teacher</div>
-<div class="card">📝 Quiz</div>
-<div class="card">🎤 Voice Learning</div>
+    if(input.toLowerCase().includes("math")){
+        reply = "Maths help coming 📘";
+    }
+    else if(input.toLowerCase().includes("science")){
+        reply = "Science videos 🎥";
+    }
 
-</section>
+    chatlog.innerHTML += "<p><b>Bot:</b> "+reply+"</p>";
 
-</body>
+    chatInput.value="";
+    chatlog.scrollTop = chatlog.scrollHeight;
+}
+
+</script></body>
 </html>
+
