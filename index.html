@@ -1,41 +1,41 @@
-<div style="margin-top:50px;">
-  <h2>RAYYAN AI (Real AI Chat)</h2>
-
-  <input id="userInput" placeholder="നിങ്ങൾ ചോദിക്കൂ..."
-    style="padding:10px;width:250px;" />
-
-  <button onclick="askAI()" style="padding:10px 15px;">
-    അയക്കുക
-  </button>
-
-  <p id="botReply" style="margin-top:20px;color:#00ffcc;"></p>
-</div>
-
-<script>
-async function askAI() {
-  let input = document.getElementById("userInput").value;
-  document.getElementById("botReply").innerText = "ചിന്തിക്കുന്നു... 🤖";
-
-  const apiKey = "AQ.Ab8RN6IOP0Av9G-ynGphitiq9G05ejyJvtO7I08dWRR0vRp1xg";
-
-  const response = await fetch(
-    "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + apiKey,
-    {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        contents: [{
-          parts: [{ text: input }]
-        }]
-      })
+<!DOCTYPE html>
+<html>
+<head>
+  <title>RAYYAN AI</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial;
+      background: black;
+      color: white;
+      text-align: center;
     }
-  );
 
-  const data = await response.json();
+    h1 {
+      margin-top: 100px;
+      color: #00ffcc;
+      font-size: 50px;
+    }
 
-  let reply = data.candidates?.[0]?.content?.parts?.[0]?.text 
-              || "ഉത്തരം ലഭിച്ചില്ല";
+    p {
+      font-size: 20px;
+      color: #ccc;
+    }
 
-  document.getElementById("botReply").innerText = reply;
-}
-</script>
+    .box {
+      margin-top: 30px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>RAYYAN AI</h1>
+  <p>Welcome to your AI Website 🤖</p>
+
+  <div class="box">
+    <p>Website is running successfully ✅</p>
+  </div>
+
+</body>
+</html>
